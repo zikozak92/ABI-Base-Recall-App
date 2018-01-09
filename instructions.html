@@ -1,0 +1,151 @@
+<style>
+p , li {
+    text-align: justify;
+}
+</style>
+
+<h2>Overview</h2>
+<p>
+ABI Base Recall is a Shiny app developed under R, To auto-correct ambiguities and N peaks within Sanger sequencing chromatograms.
+</p>
+
+<h2>Interface</h2>
+<p>
+All inputs and parameters are set using the panel to the left. As each input is entered
+or parameter set, the Chromatogram and results tabs will automatically be updated to reflect the most 
+relevant information. The user can also click on each tab to view any of the information
+he/she would like.
+</p>
+
+<h2>Step-by-step Instructions</h2>
+
+<p>
+</p>
+
+<h3>File Input:</h3>
+<p>
+Once a valid input is loaded, processing, Chromatogram Options, and Alignment options will be revealed.
+<h4>Select Abi file:</h4>
+<p>
+Upload a chromatogram file generated from Sanger sequencing. Currently, only ABIF files format are supported.
+The ABIF (*.abi and *.ab1) format is the format of Applied BioSystems sequencer trace files. The format is single sequence and is read only.</br>
+</p>
+
+<h4>Load Example Data:</h4>
+<p>
+To test the application, example data is provided and can be loaded by checking this option. the data is a sequencing result of an experiment to detect Chlamydia in a urogenital Sampling.
+</p>
+
+ <h3>Processing:</h3>
+ 
+  <h4>End Clipping:</h4>
+  <p>
+  Automated DNA sequencers occasionally produce poor quality reads, particularly near the sequencing primer site, and toward the end of longer sequence runs.
+  </p>
+  
+<h5>5' , 3'</h5>
+<p>Number of bases to remove from beginning and end of sequence data. This parameter should be 
+set so that the low quality reads at the beginning and the end of the sequence will be removed.</br>
+A warning message is displayed if the numeric inputs are left empty or the number  exceed the sequence's length.
+</p>
+
+<h5>Auto Trim</h5>
+<p>When checked, an algorithm is run to calculate the number of bases to remove from beginning and end of the sequence data.
+ the lengths of the regions to remove is calculated based on the cumulative histogram of Phred Quality Scores.</br>
+ If the file uploaded doesn't contain set of Phred Quality Scores, an error message will be displayed when uploading the data.
+</p>
+
+<h4>Recall N peaks:</h4>
+ <p>
+ By checking this option, N bases will automatically be corrected and replaced by the bases the most probable according to the chromatogram plotted.
+ </p> 
+
+<h3>Chromatogram Options:</h3>
+<p>
+After the data is uploaded, a chromatogram will automatically appear under the Chromatogram tab.
+This chromatogram will update live to reflect the changes of the parameters in this section.
+</p>
+
+ <h4>Show Removed Bases:</h4>
+ <p>
+  By accepting to show removed bases, the regions trimmed will be visible and hatched with red lines in the chromatogram plotted.
+ </p> 
+ <img class="logo" src="hatched.png" width="30%" />
+ 
+ <h4>Show Original Bases:</h4>
+ <p>
+  This option is shown only if Recall N Peaks is checked, and serve to write the original sequence among the corrected one in the chromatogram. Also the bases that been modified are highlighted for an easy detection. 
+ </p> 
+ <img class="logo" src="corrected.png" width="30%" />
+ 
+ <h4>Bases per Line:</h4>
+ <p>
+  Chromatograms are displayed in wrapped format. this input controls the number of bases per row in the chromatogram.</br>
+  A warning message is displayed if the numeric input is left empty.
+ </p> 
+
+<h3>Alignment</h3>
+<p>
+ Sequence alignment is a way of arranging the sequences of DNA, RNA, or protein to identify regions of similarity that may be a consequence of functional, structural, or evolutionary relationships between the sequences. Aligned sequences of nucleotide or amino acid residues are typically represented as rows within a matrix. Gaps are inserted between the residues so that identical or similar characters are aligned in successive columns
+</p>
+
+ <h4>Reference Sequence:</h4>
+ <p>
+  the reference sequence can be inserted in this text area for alignment, DNA characters only will be token, any other character will be skipped automatically. if remain empty the tab Alignment won't show anything.</br>
+  An other way is to upload a fasta file containing the reference sequence.
+ </p> 
+
+  <h4>Alignment Type:</h4>
+ <p>
+  The type of pairwise sequence alignment determines the substring ranges to apply the substitution scoring and gap penalty schemes.</br>
+  It is set by specifying the type argument to be one of:
+  <ul>
+  <li><b>Global</b>: align whole strings with end gap penalties (Needleman-Wunsch).</li>
+  <li><b>Local</b>: align string fragments (Smith-Waterman).</li>
+  <li><b>Overlap</b>: align whole strings without end gap penalties (ends-free).</li>
+  <li><b>Global-Local</b>: align whole strings in pattern with consecutive subsequence of subject.</li>
+  <li><b>Local-Global</b>: align consecutive subsequence of pattern with whole strings in subject.</li>
+  </ul>
+ </p>
+ 
+  <h4>Blast Programs:</h4>
+ <p>
+  The BLAST web server, hosted by the NCBI, allows anyone with a web browser to perform similarity searches against constantly updated databases of proteins and DNA that include most of the newly sequenced organisms.</br>
+  BLAST is actually a family of programs. The ones included are:
+  <ul>
+  <li><b>BLASTn</b>:
+  This program, given a DNA query, returns the most similar DNA sequences from the DNA database that the user specifies.</li>
+  <li><b>BLASTx</b>:
+  This program compares the six-frame conceptual translation products of a nucleotide query sequence (both strands) against a protein sequence database.</li>
+  <li><b>TBLASTx</b>: 
+This program is the slowest of the BLAST family. It translates the query nucleotide sequence in all six possible frames and compares it against the six-frame translations of a nucleotide sequence database. The purpose of tblastx is to find very distant relationships between nucleotide sequences.</li>
+  <li><b>MegaBLAST</b>: 
+When comparing large numbers of input sequences via the command-line BLAST, "megablast" is much faster than running BLAST multiple times. It concatenates many input sequences together to form a large sequence before searching the BLAST database, then post-analyzes the search results to glean individual alignments and statistical values.</li>
+  </ul>
+ </p>
+ 
+ <h2>Results</h2>
+ <p>
+ </p>
+ 
+ <h3>Chromatogram</h3>
+ <p>
+ This tab contain the plot of the chromatogram on wrapped format, it will change dynamically according to the parameters under the sidebar panel. the possibility of saving the plot on pdf format is available by a click on "Export as PDF". The file name is by default the sequence data file's name, but it could be changed.
+ </p>
+ 
+ <h3>Sequence Info</h3>
+<p>
+The most important information about the ABI file uploaded will be shown in this tab. For first, there is the sequence trimmed and corrected, it is available to export it as fasta by entering the header, number of base per line and the file name. Then the Quality and Cumulative Quality Histograms. at last, some details about the file and the sequencing like the model of the instrument, Run start and stop date and time, Mobility...
+</p>
+
+ <h3>Alignment</h3>
+<p>
+Under this tab, is displayed the pairwise alignment. First, Some information about the alignment are given in the Header like the gap and mismatch penalty, Length, Identity, Gaps, and Alignment Score. Then a representation of the Alignment on "pair" format. The "pair" format is one of the numerous pairwise sequence alignment formats supported by the
+EMBOSS software. See <a HREF="http://emboss.sourceforge.net/docs/themes/AlignFormats.html">this link</a> for a brief description of this format.</br>
+Sometimes, the experiment is done using a reverse primer. in this case it is possible to reverse the sequence by checking "Reverse the main sequence", this will affect only the alignment.
+</p>
+
+ <h3>Report</h3>
+<p>
+All results can be saved in one file as a report. This tab contain a set of check boxes to specify what to include in the report, and in which extension the report will be saved ( PDF, HTML or Word).
+</p>

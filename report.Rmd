@@ -1,0 +1,110 @@
+---
+fontsize: 10pt
+geometry: margin=1in
+---
+
+```{r echo=FALSE, eval=TRUE, tidy=FALSE,comment=NA, strip.white=FALSE,}
+
+cat(paste0("Sample Name : ", sampleName(),".ab1"),
+    paste0("Date : ",format(suppressWarnings(Sys.Date()),"%A, %B %d, %Y")),
+    sep='\n')
+
+```
+
+---------------------------
+
+```{r echo=FALSE, eval=TRUE, tidy=FALSE,comment=NA, strip.white=FALSE,size="large",background='#0000FF'}
+if ("seq" %in% input$variable1)
+  cat("Sequence (P1):")
+
+```
+
+
+```{r echo=FALSE, eval=TRUE, tidy=FALSE,comment=NA, strip.white=FALSE,}
+if ("seq" %in% input$variable1)
+  cat(char2string(trimmedSequence()))
+
+```
+
+
+
+```{r echo=FALSE, eval=TRUE, tidy=FALSE,comment=NA, strip.white=FALSE,size="large",background='#0000FF'}
+if ("qualHist" %in% input$variable1)
+  cat("Quality Histogram:")
+
+```
+
+```{r echo=FALSE, eval=TRUE,fig.width=11, fig.height=5.5}
+
+if ("qualHist" %in% input$variable1)
+  plotHist.fun(inputdata()$Q,
+                   paste(sampleName(),": Quality Histogram",sep=" "),
+                   "Phred Qualities",
+                   baseTrim()$t5,
+                   length(inputdata()$seq)-baseTrim()$t3)
+
+
+```
+
+
+
+```{r echo=FALSE, eval=TRUE, tidy=FALSE,comment=NA, strip.white=FALSE,size="large",background='#0000FF'}
+if ("cumQualHist" %in% input$variable1)
+  cat("Cumulative Quality Histogram:")
+
+```
+
+```{r echo=FALSE, eval=TRUE,fig.width=11, fig.height=5.5}
+
+if ("cumQualHist" %in% input$variable1)
+  plotHist.fun(cumsum(inputdata()$Q),
+                   paste(sampleName(),": Cumulative Quality Histogram",sep=" "),
+                   "Cumulative Phred Qualities",
+                   baseTrim()$t5,
+                   length(inputdata()$seq)-baseTrim()$t3)
+
+
+```
+
+
+
+```{r echo=FALSE, eval=TRUE, tidy=FALSE,comment=NA, strip.white=FALSE,size="large",background='#0000FF'}
+if ("refSeq" %in% input$variable2)
+  cat("Reference Sequence (S1):")
+
+```
+
+```{r echo=FALSE, eval=TRUE, tidy=FALSE,comment=NA, strip.white=FALSE,}
+if ("refSeq" %in% input$variable2)
+  cat(refSequence()$seq)
+
+```
+
+
+
+```{r echo=FALSE, eval=TRUE, tidy=FALSE,comment=NA, strip.white=FALSE,size="large",background='#0000FF'}
+if ("align" %in% input$variable2)
+  cat(paste("Alignement",alignementPw()$program))
+
+```
+
+
+```{r echo=FALSE, eval=TRUE, tidy=FALSE,comment=NA, strip.white=FALSE,size="large",background='#0000FF'}
+if ("align" %in% input$variable2)
+  cat("Alignement Header:")
+
+```
+
+```{r echo=FALSE, eval=TRUE, tidy=FALSE,comment=NA, strip.white=FALSE,}
+if ("align" %in% input$variable2)
+  cat(alignementPw()$header, sep='\n')
+
+```
+
+
+
+```{r echo=FALSE, eval=TRUE, tidy=FALSE,comment=NA, strip.white=FALSE,}
+if ("align" %in% input$variable2)
+  cat(alignementPw()$align, sep='\n')
+
+```
